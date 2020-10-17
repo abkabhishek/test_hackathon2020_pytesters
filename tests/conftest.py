@@ -1,4 +1,6 @@
 import pytest
+import pytest_html
+
 
 from core.browser import Browser
 from pom.home_page import HomePage
