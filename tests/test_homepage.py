@@ -1,33 +1,32 @@
 
-import time
 """
 
 """
-# def test_title(app):
-#     app.home_page.open_home_page()
-#     assert (app.home_page.get_title() == "Coronavirus Outbreak in India - covid19india.org")
+
+def test_title(app):
+    app.home_page.open_home_page()
+    assert (app.home_page.get_title() == "Coronavirus Outbreak in India - covid19india.org")
+
 
 
 def test_top_3_status_confirmed_count(app):
+
+    # call the api to get top 3 state data:
+    top_3_states = app.api.fetch_get_details(3)
+    print(top_3_states)
     app.home_page.open_home_page()
-    time.sleep(3)
-    app.home_page.click_deceased_sort_desc()
-    time.sleep(3)
-    x = app.home_page.get_nth_state_name(1)
-    print(x)
-    # assert ( x== "Odisha")
-    x = app.home_page.get_nth_state_confirmed_count(1)
-    print(x)
-    # assert (x == 266345)
-    x =app.home_page.get_nth_state_active_count(1)
-    print(x)
-    # assert (x == 23786)
-    x =app.home_page.get_nth_state_recovered_count(1)
-    print(x)
-    # assert ( x== 241385)
-    x = app.home_page.get_nth_state_deceased_count(1)
-    print(x)
-    # assert ( x== 1174)
-    x = app.home_page.get_nth_state_tested_count(1)
-    print(x)
-    # assert ( int(x)== 4001065)
+    #Iterating over all status.
+    for k,v in top_3_states.items():
+        row_count = app.home_page.get_row_count_by_state_name(k)
+        state_confirmed_count = app.home_page.get_nth_state_confirmed_count(row_count)
+        state_active_count = app.home_page.get_nth_state_active_count(row_count)
+        state_recovered_count = app.home_page.get_nth_state_recovered_count(row_count)
+        print(k,state_confirmed_count,state_active_count,state_recovered_count)
+        print("Validating values for State " +k )
+        print("Validating confirmed cases - Actual: {}, expected :{} ".format(v["confirmed"],state_confirmed_count))
+        assert (v["confirmed"] == state_confirmed_count)
+        print("Validating active cases - Actual: {}, expected :{} ".format(v["active"],state_active_count))
+        assert (v["active"] == state_active_count)
+        print("Validating recovered cases - Actual: {}, expected :{} ".format(v["recovered"],state_recovered_count))
+        assert (v["recovered"] == state_recovered_count)
+

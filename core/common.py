@@ -35,6 +35,10 @@ class Com:
         else:
             return cls.driver.find_elements(*Locatr.get_locatr_by(locatr))
 
+    @classmethod
+    def scroll_into_view(cls,elem):
+        cls.driver.execute_script("arguments[0].scrollIntoView();", elem)
+
 
 
 

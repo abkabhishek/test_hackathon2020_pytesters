@@ -1,12 +1,14 @@
 
 from core.base_page import BasePage
 
-class HomePage(BasePage):
 
+class HomePage(BasePage):
     grid_button_heading_deceased = 'xpath|//div[@class="cell heading"]//div[text()="Deceased"]//parent::div'
     grid_button_heading_deceased_invert = 'xpath|//div[@class="cell heading"]//div[text()="Deceased"]//parent::div/div[1]'
 
+
     grid_data_rows = 'xpath|//div[contains(@class,"row") and not(contains(@class,"heading"))]'
+    grid_data_all_state_names = 'xpath|//div[contains(@class,"state-name")]'
     row_state_name = '//div[1]/div'
     row_state_confirmed_count = '//div[2]/div[@class="total"]'
     row_state_active_count = '//div[3]/div[@class="total"]'
@@ -14,7 +16,7 @@ class HomePage(BasePage):
     row_state_deceased_count = '//div[5]/div[@class="total"]'
     row_state_tested_count = '//div[6]/div[@class="total"]'
 
-    def __init__(self,driver,base_url = "https://www.covid19india.org"):
+    def __init__(self, driver, base_url="https://www.covid19india.org"):
         super().__init__(driver)
         self.base_url = base_url
 
@@ -64,6 +66,15 @@ class HomePage(BasePage):
         nth = "[{}]".format(nth)
         nth_row = self.com.find_elem(self.grid_data_rows + nth + self.row_state_tested_count)
         return str(nth_row.get_attribute("title"))
+
+    def get_row_count_by_state_name(self,state_name):
+        all_state_elems = self.com.find_elems(self.grid_data_all_state_names)
+        for i in range(len(all_state_elems)):
+            self.com.scroll_into_view(all_state_elems[i])
+            if all_state_elems[i].text == state_name:
+                return i+1
+        return 1
+
 
 
 

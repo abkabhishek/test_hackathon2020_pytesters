@@ -1,7 +1,10 @@
 import pytest
+import pytest_html
+
 
 from core.browser import Browser
 from pom.home_page import HomePage
+from pom.API import APITest
 
 @pytest.fixture
 def app():
@@ -21,3 +24,4 @@ class App:
 
     def __init__(self, driver, base_url):
         self.home_page = HomePage(driver, base_url)
+        self.api = APITest(driver)
