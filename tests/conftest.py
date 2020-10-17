@@ -7,7 +7,7 @@ from pom.home_page import HomePage
 def app():
     # get Web Driver
     b = Browser.get_driver()
-
+    b.implicitly_wait(5)
     # creating App object
     app = App(b, "https://www.covid19india.org/")
 

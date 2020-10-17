@@ -1,6 +1,10 @@
 from sys import platform
 from selenium import webdriver
 import os
+import sys
+sys.path.append("/Users/abk/dev2020/python/all/office/test_hackathon2020_pytesters")
+from pom.home_page import HomePage
+import time
 
 from selenium.webdriver.chrome.options import Options
 
@@ -61,7 +65,28 @@ class Browser:
 
 
 if __name__ == "__main__":
-    driver = Browser.get_driver()
-    driver.get("https://www.google.com")
-    print(driver.title)
-    driver.quit()
+    pass
+    # driver = Browser.get_driver()
+    # home = HomePage(driver,"https://www.covid19india.org/")
+    # home.open_home()
+    # time.sleep(3)
+    # home.click_deceased_sort_desc()
+    # time.sleep(3)
+    # x = home.get_nth_state_name(1)
+    # print(x)
+    # # assert ( x== "Odisha")
+    # x = home.get_nth_state_confirmed_count(1)
+    # print(x)
+    # # assert (x == 266345)
+    # x = home.get_nth_state_active_count(1)
+    # print(x)
+    # # assert (x == 23786)
+    # x = home.get_nth_state_recovered_count(1)
+    # print(x)
+    # # assert ( x== 241385)
+    # x = home.get_nth_state_deceased_count(1)
+    # print(x)
+    # # assert ( x== 1174)
+    # x = home.get_nth_state_tested_count(1)
+    # print(x)
+    # driver.quit()
