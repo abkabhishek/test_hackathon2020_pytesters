@@ -16,6 +16,9 @@ class HomePage(BasePage):
     row_state_deceased_count = '//div[5]/div[@class="total"]'
     row_state_tested_count = '//div[6]/div[@class="total"]'
 
+    state_page_more_link = 'xpath|//div[contains(@class,"state-page")]'
+    no_data_for_district = 'xpath|//div[@class="disclaimer"]//span[text()="District-wise data not available in state bulletin"]'
+
     def __init__(self, driver, base_url="https://www.covid19india.org"):
         super().__init__(driver)
         self.base_url = base_url
@@ -38,32 +41,32 @@ class HomePage(BasePage):
             elem.click()
 
     def get_nth_state_name(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth +self.row_state_name)
         return nth_row.text
 
     def get_nth_state_confirmed_count(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth +self.row_state_confirmed_count)
         return str(nth_row.get_attribute("title"))
 
     def get_nth_state_active_count(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth +self.row_state_active_count)
         return str(nth_row.get_attribute("title"))
 
     def get_nth_state_recovered_count(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth + self.row_state_recovered_count)
         return str(nth_row.get_attribute("title"))
 
     def get_nth_state_deceased_count(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth + self.row_state_deceased_count)
         return str(nth_row.get_attribute("title"))
 
     def get_nth_state_tested_count(self,nth):
-        nth = "[{}]".format(nth)
+        nth = "[{}]".format(nth-1)
         nth_row = self.com.find_elem(self.grid_data_rows + nth + self.row_state_tested_count)
         return str(nth_row.get_attribute("title"))
 
@@ -75,6 +78,20 @@ class HomePage(BasePage):
                 return i+1
         return 1
 
+    def click_nth_state_page_link(self,nth):
+        nth = "[{}]".format(nth-1)
+        nth_row = self.com.find_elem(self.grid_data_rows + nth + self.row_state_name)
+        nth_row.click()
+        if (self.is_district_data_available()):
+            self.com.find_elem(self.state_page_more_link).click()
+            return True
+        else:
+            print("No district data available")
+            return False
+
+    def is_district_data_available(self):
+        elems = self.com.find_elems(self.no_data_for_district)
+        return len(elems)==0
 
 
 

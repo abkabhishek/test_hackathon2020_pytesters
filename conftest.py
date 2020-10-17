@@ -4,6 +4,8 @@ from core.browser import Browser
 from core.appium_extension import AppiumExtension
 from core.appium_factory import AppiumFactory
 from pom.home_page import HomePage
+from pom.state_page import StatePage
+from pom.APIWrapper import APITest
 
 
 mobile_run = None
@@ -58,3 +60,5 @@ class App:
 
     def __init__(self, driver, base_url):
         self.home_page = HomePage(driver, base_url)
+        self.state_page = StatePage(driver)
+        self.api = APITest(driver)
